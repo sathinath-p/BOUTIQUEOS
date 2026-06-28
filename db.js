@@ -17,8 +17,9 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Initialize SQLite3 database connection (stored as a local file 'boutique.db')
-const dbPath = path.join(__dirname, 'boutique.db');
+// Initialize SQLite3 database connection (stored as a local file 'boutique.db' or in '/tmp' for Vercel)
+const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
+const dbPath = isVercel ? '/tmp/boutique.db' : path.join(__dirname, 'boutique.db');
 const db = new sqlite3.Database(dbPath);
 
 const sqlitePool = {
