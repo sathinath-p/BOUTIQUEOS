@@ -1,16 +1,25 @@
-# React + Vite
+# BOUTIQUEOS
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+BoutiqueOS is a fullstack atelier management and e-commerce lounge system built with a React/Vite frontend and a Node.js Express backend with SQLite3 database storage.
 
-Currently, two official plugins are available:
+## Features
+- E-commerce Portal & Client Lounge
+- Atelier & Tailoring Order Management
+- Inventory & Fabric Tracking
+- Gmail SMTP Transactional Email Notifications
+- WhatsApp Mock Log Sync
+- Lightweight, zero-config SQLite3 Database
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Local Development
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the Express backend:
+   ```bash
+   npm run server
+   ```
+3. Start the Vite frontend dev server:
+   ```bash
+   npm run dev
+   ```
