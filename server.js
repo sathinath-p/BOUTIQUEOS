@@ -774,18 +774,20 @@ if (fs.existsSync(distDir)) {
 // ==========================================
 // START SERVER
 // ==========================================
-const PORT = process.env.PORT || 5000;
-
-async function start() {
-  try {
-    await initializeDatabase();
-    app.listen(PORT, () => {
-      console.log(`⚡ BoutiqueOS Backend Server running on http://localhost:${PORT}`);
-    });
-  } catch (err) {
-    console.error('❌ Failed to start server due to database initialization failure:', err);
-    process.exit(1);
-  }
+// Top-level await for database initialization in ES modules
+try {
+  await initializeDatabase();
+  console.log('✅ Database successfully initialized.');
+} catch (err) {
+  console.error('❌ Failed to initialize database:', err);
 }
 
-start();
+const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
+if (!isVercel) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`⚡ BoutiqueOS Backend Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
