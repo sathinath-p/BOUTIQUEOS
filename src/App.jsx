@@ -1456,7 +1456,7 @@ function App() {
     if (!customerSession && !employeeSession) {
       const timer = setInterval(() => {
         setCurrentGatewaySlide((prev) => (prev + 1) % gatewaySlides.length);
-      }, 5500);
+      }, 4000);
       return () => clearInterval(timer);
     }
   }, [customerSession, employeeSession]);
