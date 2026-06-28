@@ -1422,6 +1422,45 @@ function App() {
   const portalCustOrders = orders.filter(o => o.customerId === portalCustObj?.id);
   const activePortalOrder = portalCustOrders.find(o => o.status !== 'Delivered' && o.status !== 'Closed') || portalCustOrders[0];
 
+  // Gateway Slideshow State
+  const gatewaySlides = [
+    {
+      image: '/boutique_mannequin_gown.png',
+      title: 'Where Elegance',
+      italic: 'Meets Exclusivity',
+      type: 'zoom'
+    },
+    {
+      image: '/design_bridal_lehenga.png',
+      title: 'Crafting Your',
+      italic: 'Dream Silhouette',
+      type: 'slide'
+    },
+    {
+      image: '/design_designer_blouse.png',
+      title: 'Timeless Artistry',
+      italic: 'In Every Stitch',
+      type: 'puzzle'
+    },
+    {
+      image: '/design_party_gown.png',
+      title: 'Indulge In',
+      italic: 'Ultimate Luxury',
+      type: 'shutter'
+    }
+  ];
+
+  const [currentGatewaySlide, setCurrentGatewaySlide] = useState(0);
+
+  useEffect(() => {
+    if (!customerSession && !employeeSession) {
+      const timer = setInterval(() => {
+        setCurrentGatewaySlide((prev) => (prev + 1) % gatewaySlides.length);
+      }, 5500);
+      return () => clearInterval(timer);
+    }
+  }, [customerSession, employeeSession]);
+
   // Check 1: CENTRAL SECURITY GATEWAY SCREEN (Shown if no customer or employee session is active)
   if (!customerSession && !employeeSession) {
     return (
@@ -1438,8 +1477,40 @@ function App() {
         <div className="gateway-background-effects"></div>
         
         <div className="gateway-split-wrapper">
-          {/* LEFT branding panel */}
-          <div className="gateway-branding-card" style={{ backgroundImage: 'url("/boutique_mannequin_gown.png")' }}>
+          {/* LEFT branding panel with dynamic slides */}
+          <div className="gateway-branding-card">
+            {/* Render slides with distinct custom transition types */}
+            {gatewaySlides.map((slide, idx) => {
+              const isActive = idx === currentGatewaySlide;
+              return (
+                <div 
+                  key={idx}
+                  className={`gateway-slide slide-${slide.type} ${isActive ? 'active' : ''}`}
+                >
+                  {slide.type === 'puzzle' ? (
+                    <div className="puzzle-grid">
+                      <div className="puzzle-part p1" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                      <div className="puzzle-part p2" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                      <div className="puzzle-part p3" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                      <div className="puzzle-part p4" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                    </div>
+                  ) : slide.type === 'shutter' ? (
+                    <div className="shutter-grid">
+                      <div className="shutter-part s1" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                      <div className="shutter-part s2" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                      <div className="shutter-part s3" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                      <div className="shutter-part s4" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                    </div>
+                  ) : (
+                    <div 
+                      className="slide-image"
+                      style={{ backgroundImage: `url(${slide.image})` }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+
             <div className="gateway-branding-overlay"></div>
             <div className="gateway-branding-content">
               {/* Top B emblem */}
@@ -1467,8 +1538,10 @@ function App() {
                 </div>
                 
                 <p className="brand-slogan-text">
-                  Where Elegance <br />
-                  <span style={{ color: 'var(--gold)', fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Meets Exclusivity</span>
+                  {gatewaySlides[currentGatewaySlide].title} <br />
+                  <span style={{ color: 'var(--gold)', fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+                    {gatewaySlides[currentGatewaySlide].italic}
+                  </span>
                 </p>
               </div>
 
@@ -1503,10 +1576,14 @@ function App() {
 
                 {/* Dot pagination indicators */}
                 <div className="brand-carousel-dots">
-                  <span className="dot active"></span>
-                  <span className="dot"></span>
-                  <span className="dot"></span>
-                  <span className="dot"></span>
+                  {gatewaySlides.map((_, idx) => (
+                    <span 
+                      key={idx} 
+                      className={`dot ${idx === currentGatewaySlide ? 'active' : ''}`}
+                      onClick={() => setCurrentGatewaySlide(idx)}
+                      style={{ cursor: 'pointer' }}
+                    ></span>
+                  ))}
                 </div>
               </div>
             </div>
