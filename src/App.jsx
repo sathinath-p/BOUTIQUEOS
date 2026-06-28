@@ -2267,6 +2267,13 @@ function App() {
           <>
             {/* Hero Banner */}
             <div className="ecom-hero">
+              {/* Elegant Motion Background */}
+              <div className="hero-motion-bg">
+                <div className="motion-blob blob-gold"></div>
+                <div className="motion-blob blob-purple"></div>
+                <div className="motion-blob blob-pink"></div>
+              </div>
+
               <div className="ecom-hero-content">
                 <h1 className="ecom-hero-title">
                   Bespoke Couture <br />
